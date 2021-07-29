@@ -352,7 +352,7 @@ public final class DlgReg extends javax.swing.JDialog {
         }
         tbPetugas2.setDefaultRenderer(Object.class, new WarnaTable());
         
-        TNoReg.setDocument(new batasInput((byte)8).getKata(TNoReg));
+        TNoReg.setDocument(new batasInput((byte)20).getKata(TNoReg)); //diedit oleh Amelia Yahya tgl 23 Juli 2021 ditambahkan karakter
         TNoRw.setDocument(new batasInput((byte)17).getKata(TNoRw));
         TNoRM.setDocument(new batasInput((byte)15).getKata(TNoRM));
         AsalRujukan.setDocument(new batasInput((byte)60).getKata(AsalRujukan));
@@ -5271,11 +5271,30 @@ public final class DlgReg extends javax.swing.JDialog {
             Valid.textKosong(TBiaya,"biaya regristrasi");
         }else if(kdpnj.getText().trim().equals("")||nmpnj.getText().trim().equals("")){
             Valid.textKosong(kdpnj,"Jenis Bayar");
+        //---------------------------------------
+        //Tambahan oleh Amelia Yahya Tanggal 09 Juli 2021
+        //---------------------------------------
+        }else if(TPngJwb.getText().trim().equals("-")){
+            Valid.textKosong(TPngJwb,"Nama Penangung Jawab");
+        }else if(nmpnj.getText().trim().equals("-")){
+            Valid.textKosong(nmpnj,"Jenis Bayar");
+        //-------------------
+        //-----Penutup-------
+        //-------------------
         }else if(Sequel.cariInteger("select count(pasien.no_rkm_medis) from pasien inner join reg_periksa inner join kamar_inap "+
                  "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis and reg_periksa.no_rawat=kamar_inap.no_rawat "+
                  "where kamar_inap.stts_pulang='-' and pasien.no_rkm_medis=?",TNoRM.getText())>0){
             JOptionPane.showMessageDialog(null,"Pasien sedang dalam masa perawatan di kamar inap..!!");
             TNoRM.requestFocus();
+        //---------------------------------------
+        //Tambahan oleh Amelia Yahya Tanggal 28 Juni 2021
+        //---------------------------------------
+        }else if(Sequel.cariInteger("select count(no_rawat) from reg_periksa where no_rkm_medis='"+TNoRM.getText()+"' and kd_dokter='"+kddokter.getText()+"' and kd_poli='"+kdpoli.getText()+"' and tgl_registrasi='"+Valid.SetTgl(DTPReg.getSelectedItem()+"")+"' ")>0){
+                        JOptionPane.showMessageDialog(null,"Maaf, gagal menyimpan data. Data Pasien yang sama sudah dimasukkan sebelumnya...!!");
+                        TNoRM.requestFocus();
+        //-------------------
+        //-----Penutup-------
+        //-------------------
         }else{
             if(akses.getkode().equals("Admin Utama")){
                 isRegistrasi();
@@ -5451,6 +5470,26 @@ public final class DlgReg extends javax.swing.JDialog {
             Valid.textKosong(kdpoli,"poliklinik");
         }else if(TBiaya.getText().trim().equals("")){
             Valid.textKosong(TBiaya,"biaya regristrasi");
+        //---------------------------------------
+        //Tambahan oleh Amelia Yahya Tanggal 09 Juli 2021
+        //---------------------------------------
+        }else if(TPngJwb.getText().trim().equals("-")){
+            Valid.textKosong(TPngJwb,"Nama Penangung Jawab");
+        }else if(nmpnj.getText().trim().equals("-")){
+            Valid.textKosong(nmpnj,"Jenis Bayar");
+        //-------------------
+        //-----Penutup-------
+        //-------------------
+        
+        //---------------------------------------
+        //Tambahan oleh Amelia Yahya Tanggal 28 Juni 2021
+        //---------------------------------------
+        //}else if(Sequel.cariInteger("select count(no_rawat) from reg_periksa where no_rkm_medis='"+TNoRM.getText()+"' and kd_dokter='"+kddokter.getText()+"' and kd_poli='"+kdpoli.getText()+"' and tgl_registrasi='"+Valid.SetTgl(DTPReg.getSelectedItem()+"")+"' ")>0){
+        //                JOptionPane.showMessageDialog(null,"Maaf, gagal menyimpan data. Data Pasien yang sama sudah dimasukkan sebelumnya...!!");
+        //                TNoRM.requestFocus();
+        //-------------------
+        //-----Penutup-------
+        //-------------------
         }else{
             if(tbPetugas.getSelectedRow()>-1){
                 if(Sequel.cariRegistrasi(TNoRw.getText())>0){

@@ -458,12 +458,12 @@ public class DlgPasien extends javax.swing.JDialog {
         NmIbu.setDocument(new batasInput((byte)40).getKata(NmIbu));
         TKtp.setDocument(new batasInput((byte)20).getKata(TKtp));
         Kdpnj.setDocument(new batasInput((byte)3).getKata(Kdpnj));
-        TTlp.setDocument(new batasInput((int)40).getKata(TTlp));
-        TTmp.setDocument(new batasInput((byte)15).getKata(TTmp));
+        TTlp.setDocument(new batasInput((int)40).getKata(TTlp)); 
+        TTmp.setDocument(new batasInput((byte)25).getKata(TTmp)); //diedit oleh Amelia Yahya tgl 23 Juli 2021 ditambahkan karakter
         Alamat.setDocument(new batasInput((int)200).getFilter(Alamat));
         AlamatPj.setDocument(new batasInput((int)100).getFilter(AlamatPj));
-        Pekerjaan.setDocument(new batasInput((byte)15).getKata(Pekerjaan));
-        PekerjaanPj.setDocument(new batasInput((byte)15).getKata(PekerjaanPj));
+        Pekerjaan.setDocument(new batasInput((byte)35).getKata(Pekerjaan)); //diedit oleh Amelia Yahya tgl 23 Juli 2021 ditambahkan karakter
+        PekerjaanPj.setDocument(new batasInput((byte)35).getKata(PekerjaanPj)); //diedit oleh Amelia Yahya tgl 23 Juli 2021 ditambahkan karakter
         TUmurTh.setDocument(new batasInput((byte)5).getOnlyAngka(TUmurTh));
         Saudara.setDocument(new batasInput((byte)50).getKata(Saudara));
         Kabupaten.setDocument(new batasInput((byte)60).getFilter(Kabupaten));
@@ -3176,7 +3176,7 @@ public class DlgPasien extends javax.swing.JDialog {
         FormInput.add(jLabel13);
         jLabel13.setBounds(4, 102, 95, 23);
 
-        DTPLahir.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "03-07-2021" }));
+        DTPLahir.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-07-2021" }));
         DTPLahir.setDisplayFormat("dd-MM-yyyy");
         DTPLahir.setName("DTPLahir"); // NOI18N
         DTPLahir.setOpaque(false);
@@ -3198,7 +3198,7 @@ public class DlgPasien extends javax.swing.JDialog {
         FormInput.add(jLabel18);
         jLabel18.setBounds(402, 12, 90, 23);
 
-        cmbAgama.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ISLAM", "KRISTEN", "KATOLIK", "HINDU", "BUDHA", "KONG HU CHU", "-" }));
+        cmbAgama.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-PILIH-", "ISLAM", "KRISTEN", "KATOLIK", "HINDU", "BUDHA", "KONG HU CHU", "-" }));
         cmbAgama.setLightWeightPopupEnabled(false);
         cmbAgama.setName("cmbAgama"); // NOI18N
         cmbAgama.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -3214,7 +3214,7 @@ public class DlgPasien extends javax.swing.JDialog {
         FormInput.add(jLabel19);
         jLabel19.setBounds(629, 12, 100, 23);
 
-        CmbStts.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "MENIKAH", "BELUM MENIKAH", "JANDA", "DUDHA" }));
+        CmbStts.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-PILIH-", "MENIKAH", "BELUM MENIKAH", "JANDA", "DUDHA" }));
         CmbStts.setLightWeightPopupEnabled(false);
         CmbStts.setName("CmbStts"); // NOI18N
         CmbStts.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -3308,7 +3308,7 @@ public class DlgPasien extends javax.swing.JDialog {
         FormInput.add(TKtp);
         TKtp.setBounds(743, 132, 130, 23);
 
-        DTPDaftar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "03-07-2021" }));
+        DTPDaftar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-07-2021" }));
         DTPDaftar.setDisplayFormat("dd-MM-yyyy");
         DTPDaftar.setName("DTPDaftar"); // NOI18N
         DTPDaftar.setOpaque(false);
@@ -3349,6 +3349,9 @@ public class DlgPasien extends javax.swing.JDialog {
         Saudara.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 SaudaraKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                SaudaraKeyReleased(evt);
             }
         });
         FormInput.add(Saudara);
@@ -3555,7 +3558,13 @@ public class DlgPasien extends javax.swing.JDialog {
         FormInput.add(jLabel25);
         jLabel25.setBounds(4, 252, 95, 23);
 
+        PekerjaanPj.setText("-");
         PekerjaanPj.setName("PekerjaanPj"); // NOI18N
+        PekerjaanPj.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                PekerjaanPjMouseExited(evt);
+            }
+        });
         PekerjaanPj.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 PekerjaanPjKeyPressed(evt);
@@ -3699,9 +3708,20 @@ public class DlgPasien extends javax.swing.JDialog {
         FormInput.add(jLabel28);
         jLabel28.setBounds(392, 72, 100, 23);
 
+        TNoPeserta.setText("-");
         TNoPeserta.setComponentPopupMenu(jPopupMenu2);
         TNoPeserta.setHighlighter(null);
         TNoPeserta.setName("TNoPeserta"); // NOI18N
+        TNoPeserta.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                TNoPesertaMouseMoved(evt);
+            }
+        });
+        TNoPeserta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                TNoPesertaMouseExited(evt);
+            }
+        });
         TNoPeserta.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 TNoPesertaKeyPressed(evt);
@@ -3778,7 +3798,19 @@ public class DlgPasien extends javax.swing.JDialog {
         jLabel32.setBounds(4, 312, 95, 23);
 
         nmsukubangsa.setEditable(false);
+        nmsukubangsa.setText("-");
+        nmsukubangsa.setToolTipText("");
         nmsukubangsa.setName("nmsukubangsa"); // NOI18N
+        nmsukubangsa.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                nmsukubangsaMouseMoved(evt);
+            }
+        });
+        nmsukubangsa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                nmsukubangsaMouseExited(evt);
+            }
+        });
         FormInput.add(nmsukubangsa);
         nmsukubangsa.setBounds(102, 312, 259, 23);
 
@@ -3800,7 +3832,18 @@ public class DlgPasien extends javax.swing.JDialog {
         BtnSuku.setBounds(364, 312, 28, 23);
 
         nmbahasa.setEditable(false);
+        nmbahasa.setText("-");
         nmbahasa.setName("nmbahasa"); // NOI18N
+        nmbahasa.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                nmbahasaMouseMoved(evt);
+            }
+        });
+        nmbahasa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                nmbahasaMouseExited(evt);
+            }
+        });
         FormInput.add(nmbahasa);
         nmbahasa.setBounds(102, 342, 259, 23);
 
@@ -3832,7 +3875,18 @@ public class DlgPasien extends javax.swing.JDialog {
         jLabel37.setBounds(402, 342, 90, 23);
 
         nmperusahaan.setEditable(false);
+        nmperusahaan.setText("-");
         nmperusahaan.setName("nmperusahaan"); // NOI18N
+        nmperusahaan.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                nmperusahaanMouseMoved(evt);
+            }
+        });
+        nmperusahaan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                nmperusahaanMouseExited(evt);
+            }
+        });
         FormInput.add(nmperusahaan);
         nmperusahaan.setBounds(496, 342, 152, 23);
 
@@ -4133,7 +4187,18 @@ public class DlgPasien extends javax.swing.JDialog {
         jLabel38.setBounds(4, 372, 95, 23);
 
         nmcacat.setEditable(false);
+        nmcacat.setText("-");
         nmcacat.setName("nmcacat"); // NOI18N
+        nmcacat.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                nmcacatMouseMoved(evt);
+            }
+        });
+        nmcacat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                nmcacatMouseExited(evt);
+            }
+        });
         FormInput.add(nmcacat);
         nmcacat.setBounds(102, 372, 259, 23);
 
@@ -4159,8 +4224,19 @@ public class DlgPasien extends javax.swing.JDialog {
         FormInput.add(jLabel39);
         jLabel39.setBounds(648, 72, 60, 23);
 
+        EMail.setText("-");
         EMail.setHighlighter(null);
         EMail.setName("EMail"); // NOI18N
+        EMail.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                EMailMouseMoved(evt);
+            }
+        });
+        EMail.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                EMailMouseExited(evt);
+            }
+        });
         EMail.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 EMailKeyPressed(evt);
@@ -4532,6 +4608,22 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
             Valid.textKosong(nmcacat,"Cacat Fisik");
         }else if(nmbahasa.getText().trim().equals("")){
             Valid.textKosong(nmbahasa,"Bahasa");
+        //---------------------------------------
+        //Tambahan oleh Amelia Yahya Tanggal 09 Juli 2021
+        //---------------------------------------
+        }else if(cmbAgama.getSelectedItem().equals("-PILIH-")){
+            Valid.textKosong(cmbAgama,"Agama");
+        }else if(CmbStts.getSelectedItem().equals("-PILIH-")){
+            Valid.textKosong(CmbStts,"Status");
+        }else if(Alamat.getText().trim().equals("ALAMAT")){
+            Valid.textKosong(Alamat,"Alamat Pasien harus di isi");
+        }else if(Saudara.getText().trim().equals("")){
+            Valid.textKosong(Saudara,"Nama PenanggungJawab harus di isi tidak boleh");
+        }else if(Saudara.getText().trim().equals("-")){
+            Valid.textKosong(Saudara,"Nama PenanggungJawab harus di isi tidak boleh - dan");
+        //-------------------
+        //-----Penutup-------
+        //-------------------
         }else if(nmperusahaan.getText().trim().equals("")){
             Valid.textKosong(nmperusahaan,"Perusahaan/Instansi");
         }else if((chkTNI.isSelected()==true)&&nmgolongantni.getText().trim().equals("")){
@@ -4881,6 +4973,22 @@ private void BtnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             Valid.textKosong(nmsukubangsa,"Suku/Bangsa");
         }else if(nmbahasa.getText().trim().equals("")){
             Valid.textKosong(nmbahasa,"Bahasa");
+        //---------------------------------------
+        //Tambahan oleh Amelia Yahya Tanggal 09 Juli 2021
+        //---------------------------------------
+        }else if(cmbAgama.getSelectedItem().equals("-PILIH-")){
+            Valid.textKosong(cmbAgama,"Agama");
+        }else if(CmbStts.getSelectedItem().equals("-PILIH-")){
+            Valid.textKosong(CmbStts,"Status");
+        }else if(Alamat.getText().trim().equals("ALAMAT")){
+            Valid.textKosong(Alamat,"Alamat Pasien harus di isi");
+        }else if(Saudara.getText().trim().equals("")){
+            Valid.textKosong(Saudara,"Nama PenanggungJawab harus di isi tidak boleh");
+        }else if(Saudara.getText().trim().equals("-")){
+            Valid.textKosong(Saudara,"Nama PenanggungJawab harus di isi tidak boleh - dan");
+        //-------------------
+        //-----Penutup-------
+        //-------------------
         }else if(nmcacat.getText().trim().equals("")){
             Valid.textKosong(nmcacat,"Cacat Fisik");
         }else if(nmperusahaan.getText().trim().equals("")){
@@ -8248,7 +8356,93 @@ private void KabupatenMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:eve
             
         LCount.setText(""+tabMode.getRowCount());
     }//GEN-LAST:event_ppRegistrasi2BtnPrintActionPerformed
+    
+    //Source code ditambahkan oleh Amelia Yahya 23 Juli 2021
+    
+    private void nmsukubangsaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nmsukubangsaMouseExited
+        if(nmsukubangsa.getText().equals("")){
+            nmsukubangsa.setText("-");
+        }
+    }//GEN-LAST:event_nmsukubangsaMouseExited
 
+    private void nmsukubangsaMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nmsukubangsaMouseMoved
+        if(nmsukubangsa.getText().equals("-")){
+            nmsukubangsa.setText("");
+        }
+    }//GEN-LAST:event_nmsukubangsaMouseMoved
+
+    private void nmbahasaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nmbahasaMouseExited
+        if(nmbahasa.getText().equals("")){
+            nmbahasa.setText("-");
+        }
+    }//GEN-LAST:event_nmbahasaMouseExited
+
+    private void nmcacatMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nmcacatMouseMoved
+        if(nmcacat.getText().equals("")){
+            nmcacat.setText("-");
+        }
+    }//GEN-LAST:event_nmcacatMouseMoved
+
+    private void nmbahasaMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nmbahasaMouseMoved
+        if(nmbahasa.getText().equals("-")){
+            nmbahasa.setText("");
+        }
+    }//GEN-LAST:event_nmbahasaMouseMoved
+
+    private void nmcacatMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nmcacatMouseExited
+       if(nmcacat.getText().equals("")){
+            nmcacat.setText("-");
+        }
+    }//GEN-LAST:event_nmcacatMouseExited
+
+    private void TNoPesertaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TNoPesertaMouseExited
+        if(TNoPeserta.getText().equals("")){
+            TNoPeserta.setText("-");
+        }
+    }//GEN-LAST:event_TNoPesertaMouseExited
+
+    private void TNoPesertaMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TNoPesertaMouseMoved
+        if(TNoPeserta.getText().equals("-")){
+            TNoPeserta.setText("");
+        }
+    }//GEN-LAST:event_TNoPesertaMouseMoved
+
+    private void PekerjaanPjMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PekerjaanPjMouseExited
+        if(PekerjaanPj.getText().equals("")){
+            PekerjaanPj.setText("-");
+        }
+    }//GEN-LAST:event_PekerjaanPjMouseExited
+
+    private void EMailMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EMailMouseExited
+        if(EMail.getText().equals("")){
+            EMail.setText("-");
+        }
+    }//GEN-LAST:event_EMailMouseExited
+
+    private void EMailMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EMailMouseMoved
+        if(EMail.getText().equals("-")){
+            EMail.setText("");
+        }
+    }//GEN-LAST:event_EMailMouseMoved
+
+    private void nmperusahaanMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nmperusahaanMouseExited
+        if(nmperusahaan.getText().equals("")){
+            nmperusahaan.setText("-");
+        }
+    }//GEN-LAST:event_nmperusahaanMouseExited
+
+    private void nmperusahaanMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nmperusahaanMouseMoved
+        if(nmperusahaan.getText().equals("-")){
+            nmperusahaan.setText("");
+        }
+    }//GEN-LAST:event_nmperusahaanMouseMoved
+
+    private void SaudaraKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SaudaraKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SaudaraKeyReleased
+
+    //----------End Source code Amelia Yahya-----------
+    
     /**
      * @data args the command line arguments
      */
@@ -9350,7 +9544,8 @@ private void KabupatenMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:eve
             
         LCount.setText(""+tabMode3.getRowCount());
     }
-
+    
+    //Ini untuk Setting Default Tabel Amelia Yahya
     public void emptTeks() {
         TNo.setText("");
         Kd2.setText("");
@@ -9360,12 +9555,13 @@ private void KabupatenMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:eve
         TTmp.setText("");
         cmbAgama.setSelectedIndex(0);
         CmbStts.setSelectedIndex(0);
+        Kdpnj.setText("A09"); //DI TAMBAHKAN OLEH AMELIA YAHYA 23 JULI 2021
         Alamat.setText("ALAMAT");
         AlamatPj.setText("ALAMAT");
         TKtp.setText("");
-        TNoPeserta.setText("");
+        TNoPeserta.setText("-"); //DI EDIT OLEH AMELIA YAHYA 23 JULI 2021
         Pekerjaan.setText("");
-        PekerjaanPj.setText("");
+        PekerjaanPj.setText("-"); //DI EDIT OLEH AMELIA YAHYA 23 JULI 2021
         TTlp.setText("");
         TUmurTh.setText("");
         Saudara.setText("");     
@@ -9378,22 +9574,21 @@ private void KabupatenMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:eve
         KecamatanPj.setText("KECAMATAN");      
         KabupatenPj.setText("KABUPATEN");  
         PropinsiPj.setText("PROPINSI");
-        kdcacat.setText("");
-        nmcacat.setText("");
+        kdcacat.setText("1"); //DI EDIT OLEH AMELIA YAHYA 23 JULI 2021
+        nmcacat.setText("-"); //DI EDIT OLEH AMELIA YAHYA 23 JULI 2021
         NIP.setText("");
-        EMail.setText("");
+        EMail.setText("-"); //DI EDIT OLEH AMELIA YAHYA 23 JULI 2021
         R5.setSelected(true);
         DTPLahir.setDate(new Date());
         DTPDaftar.setDate(new Date());
         chkPolri.setSelected(false);
         chkTNI.setSelected(false);
-        kdsuku.setText("");
-        nmsukubangsa.setText("");
-        kdbahasa.setText("");
-        nmbahasa.setText("");
-        kdperusahaan.setText("");
-        nmperusahaan.setText("");
-        kdgolongantni.setText("");
+        kdsuku.setText("1"); //DI EDIT OLEH AMELIA YAHYA 23 JULI 2021
+        nmsukubangsa.setText("-"); //DI EDIT OLEH AMELIA YAHYA 23 JULI 2021
+        kdbahasa.setText("1"); //DI EDIT OLEH AMELIA YAHYA 23 JULI 2021
+        nmbahasa.setText("-"); //DI EDIT OLEH AMELIA YAHYA 23 JULI 2021
+        kdperusahaan.setText("-"); //DI EDIT OLEH AMELIA YAHYA 23 JULI 2021
+        nmperusahaan.setText("-"); //DI EDIT OLEH AMELIA YAHYA 23 JULI 2021
         nmgolongantni.setText("");
         kdsatuantni.setText("");
         nmsatuantni.setText("");

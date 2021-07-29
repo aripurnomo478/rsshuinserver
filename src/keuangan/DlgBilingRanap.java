@@ -214,7 +214,7 @@ public class DlgBilingRanap extends javax.swing.JDialog {
             laboratserv=0,radiologiserv=0,operasiserv=0,obatserv=0,obatlangsung=0,
             ranap_dokterserv=0,ranap_paramedisserv=0,ralan_dokterserv=0,
             ralan_paramedisserv=0,tambahanserv=0,potonganserv=0,
-            kamarserv=0,registrasiserv=0,harianserv=0,retur_Obatserv=0,resep_Pulangserv=0,ttlService=0,
+            kamarserv=0,registrasiserv=0,harianserv=0,retur_Obatserv=0,resep_Pulangserv=0,ttlService=0,ttlService1=0,
             persenbayi=Sequel.cariInteger("select bayi from set_jam_minimal");
     private int x=0,z=0,i=0,countbayar=0,jml=0,r=0,row2=0;
     private WarnaTable2 warna=new WarnaTable2();
@@ -5726,13 +5726,42 @@ private void BtnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
                     if(rsservice.getString("resep_Pulang").equals("Yes")){
                         resep_Pulangserv=ttlResep_Pulang;
                     }
-                    ttlService=Valid.roundUp((rsservice.getDouble("besar")/100)*
-                            (laboratserv+radiologiserv+operasiserv+obatserv+
-                            ranap_dokterserv+ranap_paramedisserv+ralan_dokterserv+
-                            ralan_paramedisserv+tambahanserv+potonganserv+
-                            kamarserv+registrasiserv+harianserv+retur_Obatserv+resep_Pulangserv),100);
-                    ttl=ttl+ttlService;
-                    tabModeRwJlDr.addRow(new Object[]{true,rsservice.getString("nama_service"),":","",null,null,null,ttlService,"Service"});
+                    //-----------------------------------------
+                    //Sudah di Edit oleh Amelia Yahya & Pak Aviv
+                    //Tanggal 07-07-2021 s/d 08-07-2021
+                    //Source code ini telah di edit (custom)
+                        
+                     ttlService1=Valid.roundUp((rsservice.getDouble("besar")/100)*
+                                    (laboratserv+radiologiserv+operasiserv+obatserv+
+                                    ranap_dokterserv+ranap_paramedisserv+ralan_dokterserv+
+                                    ralan_paramedisserv+tambahanserv+potonganserv+
+                                    kamarserv+registrasiserv+harianserv+retur_Obatserv+resep_Pulangserv),100);    
+                               
+                        if(ttlService1>1000000){
+                            ttlService=1000000;
+                            ttl=ttl+ttlService;
+                            
+                        }else{
+                             ttlService=ttlService1;
+                            ttl=ttl+ttlService;
+                            }
+                          
+                        tabModeRwJlDr.addRow(new Object[]{true,rsservice.getString("nama_service"),":","",null,null,null,ttlService,"Service"});      
+                        //-----------------------------------------
+                        //-----END-----
+                        
+                        //--------------Source code asli dibawah ini--------------
+                        //   ttlService=Valid.roundUp((rsservice.getDouble("besar")/100)*
+                        //           (laboratserv+radiologiserv+operasiserv+obatserv+
+                        //           ranap_dokterserv+ranap_paramedisserv+ralan_dokterserv+
+                        //           ralan_paramedisserv+tambahanserv+potonganserv+
+                        //           kamarserv+registrasiserv+harianserv+retur_Obatserv+resep_Pulangserv),100);
+                        //   ttl=ttl+ttlService;
+                            
+                        //   tabModeRwJlDr.addRow(new Object[]{true,rsservice.getString("nama_service"),":","",null,null,null,ttlService,"Service"});
+                        //-----------------------------------------
+                        //--------------Penutup--------------------
+                        //-----------------------------------------
                 }                    
             } catch (Exception e) {
                 System.out.println("Notifikasi : "+e);
