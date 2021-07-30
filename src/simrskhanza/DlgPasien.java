@@ -21,10 +21,6 @@ import bridging.DUKCAPILCekNIK;
 import bridging.DUKCAPILJakartaCekNik;
 import bridging.PCareNIK;
 import bridging.PCarePeserta;
-import bridging.YaskiReferensiKabupaten;
-import bridging.YaskiReferensiKecamatan;
-import bridging.YaskiReferensiKelurahan;
-import bridging.YaskiReferensiPropinsi;
 import fungsi.WarnaTable;
 import fungsi.batasInput;
 import grafikanalisa.grafikjkel;
@@ -59,6 +55,10 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.text.Document;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
+import custom.DlgKelurahan2;
+import custom.DlgKecamatan2;
+import custom.DlgKabupaten2;
+import custom.DlgPropinsi2;
 
 
 /**
@@ -71,10 +71,10 @@ public class DlgPasien extends javax.swing.JDialog {
     private validasi Valid=new validasi();
     private Connection koneksi=koneksiDB.condb();
     public  DlgCariCaraBayar penjab=new DlgCariCaraBayar(null,false);
-    public  DlgKabupaten kab=new DlgKabupaten(null,false);
-    public  DlgPropinsi prop=new DlgPropinsi(null,false);
-    public  DlgKecamatan kec=new DlgKecamatan(null,false);
-    public  DlgKelurahan kel=new DlgKelurahan(null,false);
+    public  DlgKabupaten2 kab=new DlgKabupaten2(null,false);
+    public  DlgPropinsi2 prop=new DlgPropinsi2(null,false);
+    public  DlgKecamatan2 kec=new DlgKecamatan2(null,false);
+    public  DlgKelurahan2 kel=new DlgKelurahan2(null,false);
     public  DlgCariPerusahaan perusahaan=new DlgCariPerusahaan(null,false);
     public  DlgCariBahasa bahasa=new DlgCariBahasa(null,false);
     public  DlgCariCacatFisik cacat=new DlgCariCacatFisik(null,false);
@@ -1118,17 +1118,29 @@ public class DlgPasien extends javax.swing.JDialog {
                     if(kel.getTable().getSelectedRow()!= -1){
                         switch (pilih) {
                             case 1:
-                                Kelurahan.setText(kel.getTable().getValueAt(kel.getTable().getSelectedRow(),0).toString());
-                                kdkel=kel.getTable().getValueAt(kel.getTable().getSelectedRow(),1).toString();
-                                Kelurahan.requestFocus();
+                                //Kelurahan.setText(kel.getTable().getValueAt(kel.getTable().getSelectedRow(),0).toString());
+                                //kdkel=kel.getTable().getValueAt(kel.getTable().getSelectedRow(),1).toString();
+                                //Kelurahan.requestFocus();
+                                Kelurahan.setText(kel.getTable().getValueAt(kel.getTable().getSelectedRow(),1).toString());
+                                Kecamatan.setText(kel.getTable().getValueAt(kel.getTable().getSelectedRow(),2).toString());
+                                Kabupaten.setText(kel.getTable().getValueAt(kel.getTable().getSelectedRow(),3).toString());
+                                Propinsi.setText(kel.getTable().getValueAt(kel.getTable().getSelectedRow(),4).toString());
+                                Kelurahan.requestFocus();                             
+                                //by aripure(perubahan case1                               
                                 break;
                             case 2:
                                 Kelurahan2.setText(kel.getTable().getValueAt(kel.getTable().getSelectedRow(),0).toString());
                                 Kelurahan2.requestFocus();
                                 break;
                             case 3:
-                                KelurahanPj.setText(kel.getTable().getValueAt(kel.getTable().getSelectedRow(),0).toString());
+                                //KelurahanPj.setText(kel.getTable().getValueAt(kel.getTable().getSelectedRow(),0).toString());
+                                //KelurahanPj.requestFocus();
+                                 KelurahanPj.setText(kel.getTable().getValueAt(kel.getTable().getSelectedRow(),1).toString());
+                                KecamatanPj.setText(kel.getTable().getValueAt(kel.getTable().getSelectedRow(),2).toString());
+                                KabupatenPj.setText(kel.getTable().getValueAt(kel.getTable().getSelectedRow(),3).toString());
+                                PropinsiPj.setText(kel.getTable().getValueAt(kel.getTable().getSelectedRow(),4).toString());
                                 KelurahanPj.requestFocus();
+                                //by aripure(perubahan case3                             
                                 break;
                             default:
                                 break;
@@ -1612,6 +1624,8 @@ public class DlgPasien extends javax.swing.JDialog {
         EMail = new widget.TextBox();
         jLabel40 = new widget.Label();
         NIP = new widget.TextBox();
+        jLabel1 = new javax.swing.JLabel();
+        ChkAlamatSama = new widget.CekBox();
         internalFrame4 = new widget.InternalFrame();
         Scroll = new widget.ScrollPane();
         tbPasien = new widget.Table();
@@ -3090,7 +3104,6 @@ public class DlgPasien extends javax.swing.JDialog {
 
         TabRawat.setBackground(new java.awt.Color(255, 255, 254));
         TabRawat.setForeground(new java.awt.Color(50, 50, 50));
-        TabRawat.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         TabRawat.setName("TabRawat"); // NOI18N
         TabRawat.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -4259,6 +4272,28 @@ public class DlgPasien extends javax.swing.JDialog {
         });
         FormInput.add(NIP);
         NIP.setBounds(753, 342, 120, 23);
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel1.setText("Alamat Sama");
+        jLabel1.setName("jLabel1"); // NOI18N
+        FormInput.add(jLabel1);
+        jLabel1.setBounds(910, 250, 90, 20);
+
+        ChkAlamatSama.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(175, 180, 170)));
+        ChkAlamatSama.setForeground(new java.awt.Color(153, 0, 51));
+        ChkAlamatSama.setBorderPainted(true);
+        ChkAlamatSama.setBorderPaintedFlat(true);
+        ChkAlamatSama.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        ChkAlamatSama.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ChkAlamatSama.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        ChkAlamatSama.setName("ChkAlamatSama"); // NOI18N
+        ChkAlamatSama.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                ChkAlamatSamaItemStateChanged(evt);
+            }
+        });
+        FormInput.add(ChkAlamatSama);
+        ChkAlamatSama.setBounds(880, 250, 23, 23);
 
         Scroll1.setViewportView(FormInput);
 
@@ -8441,6 +8476,23 @@ private void KabupatenMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:eve
         // TODO add your handling code here:
     }//GEN-LAST:event_SaudaraKeyReleased
 
+    private void ChkAlamatSamaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ChkAlamatSamaItemStateChanged
+        if(ChkAlamatSama.isSelected()==true){
+            AlamatPj.setText(Alamat.getText());
+            KelurahanPj.setText(Kelurahan.getText());
+            KecamatanPj.setText(Kecamatan.getText());
+            KabupatenPj.setText(Kabupaten.getText());
+            PropinsiPj.setText(Propinsi.getText());
+        }else if(ChkAlamatSama.isSelected()==false){
+            AlamatPj.setText("");
+            KelurahanPj.setText("KELURAHAN");
+            KecamatanPj.setText("KECAMATAN");
+            KabupatenPj.setText("KABUPATEN");
+            PropinsiPj.setText("PROPINSI");
+            AlamatPj.requestFocus();
+        }
+    }//GEN-LAST:event_ChkAlamatSamaItemStateChanged
+
     //----------End Source code Amelia Yahya-----------
     
     /**
@@ -8531,6 +8583,7 @@ private void KabupatenMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:eve
     private widget.ComboBox CMbPnd;
     private widget.TextBox Carialamat;
     private widget.CekBox ChkAccor;
+    private widget.CekBox ChkAlamatSama;
     private widget.CekBox ChkDaftar;
     private widget.CekBox ChkRM;
     private widget.ComboBox CmbJk;
@@ -8674,6 +8727,7 @@ private void KabupatenMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:eve
     private widget.InternalFrame internalFrame5;
     private widget.InternalFrame internalFrame6;
     private widget.InternalFrame internalFrame8;
+    private javax.swing.JLabel jLabel1;
     private widget.Label jLabel10;
     private widget.Label jLabel11;
     private widget.Label jLabel12;
