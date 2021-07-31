@@ -41,7 +41,7 @@ public class DlgTagihanOperasi extends javax.swing.JDialog {
             Suspen_Piutang_Operasi_Ralan="",Operasi_Ralan="",Beban_Jasa_Medik_Dokter_Operasi_Ralan="",Utang_Jasa_Medik_Dokter_Operasi_Ralan="",
             Beban_Jasa_Medik_Paramedis_Operasi_Ralan="",Utang_Jasa_Medik_Paramedis_Operasi_Ralan="",HPP_Obat_Operasi_Ralan="",Persediaan_Obat_Kamar_Operasi_Ralan="",
             norawatibu="";
-    private double y=0,biayatindakan=0,biayaobat=0;
+    private double y=0,biayatindakan=0,biayaobat=0,biayaop1=0,tambahanpenyulit=0,totalpenyulit=0,x=0;
     private int jml=0,pilihan=0,i=0,index=0;
     private boolean[] pilih; 
     private boolean sukses=true;
@@ -501,6 +501,8 @@ public class DlgTagihanOperasi extends javax.swing.JDialog {
         tbObat = new widget.Table();
         panelisi1 = new widget.panelisi();
         BtnSimpan = new widget.Button();
+        jPenyulit = new javax.swing.JCheckBox();
+        txtPenyulit = new javax.swing.JTextField();
         LTotal = new widget.Label();
         BtnCari = new widget.Button();
         BtnKeluar = new widget.Button();
@@ -872,6 +874,24 @@ public class DlgTagihanOperasi extends javax.swing.JDialog {
             }
         });
         panelisi1.add(BtnSimpan);
+
+        jPenyulit.setText("25%");
+        jPenyulit.setName("jPenyulit"); // NOI18N
+        jPenyulit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPenyulitActionPerformed(evt);
+            }
+        });
+        panelisi1.add(jPenyulit);
+
+        txtPenyulit.setText("Tambahan Penyulit :");
+        txtPenyulit.setName("txtPenyulit"); // NOI18N
+        txtPenyulit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPenyulitActionPerformed(evt);
+            }
+        });
+        panelisi1.add(txtPenyulit);
 
         LTotal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         LTotal.setText("Total Biaya : 0");
@@ -2643,7 +2663,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             kddrumum.setText("-");
             nmdrumum.setText("-");
         }
-
+        
         if(TNoRw.getText().trim().equals("")||TPasien.getText().trim().equals("")){
             Valid.textKosong(TNoRw,"Pasien");
         }else if(jenis.getText().trim().equals("")){
@@ -2704,7 +2724,36 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             }else{
                 Sequel.AutoComitFalse();
                 sukses=true;
-                ttljmdokter=0;ttljmpetugas=0;ttlpendapatan=0;ttlbhp=0;
+                ttljmdokter=0;ttljmpetugas=0;ttlpendapatan=0;ttlbhp=0;biayaop1=0;totalpenyulit=0;
+            
+            //Source Code di buat dan Tambahkan oleh Amelia Yahya 30 Juli 2021    
+            y=0;
+            int row2=tbtindakan.getRowCount();
+            for(int r=0;r<row2;r++){ 
+                switch (tbtindakan.getValueAt(r,0).toString()) {
+                    case "true":
+                        try {
+                            y=Double.parseDouble(tbtindakan.getValueAt(r,4).toString());
+                        } catch (Exception e) {
+                            y=0;
+                        }                        
+                        break;                
+                    case "false":
+                        y=0;
+                        break;
+                }
+                biayaop1=biayaop1+y;
+            }
+        
+            if (jPenyulit.isSelected()==true){
+                tambahanpenyulit =   biayaop1 * 0.25;
+            }else if(jPenyulit.isSelected()==false){   
+                tambahanpenyulit = 0;
+            }
+            
+            totalpenyulit=tambahanpenyulit+biayaop1;
+            //-------END-------
+        
                 for(i=0;i<tbtindakan.getRowCount();i++){
                     if(tabMode.getValueAt(i,0).toString().equals("true")){
                         if(Sequel.menyimpantf2("operasi","'"+TNoRw.getText()+"','"+Valid.SetTgl(tgl.getSelectedItem()+"")+" "+tgl.getSelectedItem().toString().substring(11,19)
@@ -2714,8 +2763,9 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                             +"','"+kdbidan.getText()+"','"+kdbidan2.getText()+"','"+kdbidan3.getText()+"','"+kdprwluar.getText()
                             +"','"+kdonloop1.getText()+"','"+kdonloop2.getText()+"','"+kdonloop3.getText()+"','"+kdonloop4.getText()+"','"+kdonloop5.getText()
                             +"','"+kdpjanak.getText()+"','"+kddrumum.getText()
-                            +"','"+tbtindakan.getValueAt(i,1).toString()
-                            +"','"+tbtindakan.getValueAt(i,4).toString()
+                            +"','"+tbtindakan.getValueAt(i,1).toString() 
+                            +"','"+totalpenyulit //code di edit oleh Amelia Yahya tanggal 30 Juli 2021
+                            //+"','"+tbtindakan.getValueAt(i,4).toString() //ini adalah source code asli
                             +"','"+tbtindakan.getValueAt(i,5).toString()
                             +"','"+tbtindakan.getValueAt(i,6).toString()
                             +"','"+tbtindakan.getValueAt(i,7).toString()
@@ -2743,14 +2793,17 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                             +"','"+tbtindakan.getValueAt(i,29).toString()
                             +"','"+tbtindakan.getValueAt(i,30).toString()
                             +"','"+tbtindakan.getValueAt(i,31).toString()+"','"+status+"'","data")==true){
-                            ttljmdokter=ttljmdokter+Double.parseDouble(tbtindakan.getValueAt(i,4).toString())+
+                            ttljmdokter=ttljmdokter+
+                                    totalpenyulit+
+                                    //Double.parseDouble(tbtindakan.getValueAt(i,4).toString())+ //Source Code ini di edit oleh Amelia Yahya 30 Juli 2021
                                     Double.parseDouble(tbtindakan.getValueAt(i,5).toString())+
                                     Double.parseDouble(tbtindakan.getValueAt(i,6).toString())+
                                     Double.parseDouble(tbtindakan.getValueAt(i,11).toString())+
                                     Double.parseDouble(tbtindakan.getValueAt(i,13).toString())+
                                     Double.parseDouble(tbtindakan.getValueAt(i,30).toString())+
                                     Double.parseDouble(tbtindakan.getValueAt(i,31).toString());
-                            ttljmpetugas=ttljmpetugas+Double.parseDouble(tbtindakan.getValueAt(i,7).toString())+
+                            ttljmpetugas=ttljmpetugas+
+                                    Double.parseDouble(tbtindakan.getValueAt(i,7).toString())+
                                     Double.parseDouble(tbtindakan.getValueAt(i,8).toString())+
                                     Double.parseDouble(tbtindakan.getValueAt(i,9).toString())+
                                     Double.parseDouble(tbtindakan.getValueAt(i,10).toString())+
@@ -2766,7 +2819,42 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                                     Double.parseDouble(tbtindakan.getValueAt(i,26).toString())+
                                     Double.parseDouble(tbtindakan.getValueAt(i,27).toString())+
                                     Double.parseDouble(tbtindakan.getValueAt(i,28).toString());
-                            ttlpendapatan=ttlpendapatan+Double.parseDouble(tbtindakan.getValueAt(i,32).toString()); 
+                            ttlpendapatan=ttlpendapatan+
+                                    //----------AWAL------------
+                                    //Source Code ini di tambahkan oleh Amelia Yahya 31 Juli 2021
+                                    //---------------------------
+                                    totalpenyulit+
+                                    //Double.parseDouble(tbtindakan.getValueAt(i,4).toString())+ //tidak menggunakan ini
+                                    Double.parseDouble(tbtindakan.getValueAt(i,5).toString())+
+                                    Double.parseDouble(tbtindakan.getValueAt(i,6).toString())+
+                                    Double.parseDouble(tbtindakan.getValueAt(i,7).toString())+
+                                    Double.parseDouble(tbtindakan.getValueAt(i,8).toString())+
+                                    Double.parseDouble(tbtindakan.getValueAt(i,9).toString())+
+                                    Double.parseDouble(tbtindakan.getValueAt(i,10).toString())+
+                                    Double.parseDouble(tbtindakan.getValueAt(i,11).toString())+
+                                    Double.parseDouble(tbtindakan.getValueAt(i,12).toString())+
+                                    Double.parseDouble(tbtindakan.getValueAt(i,13).toString())+
+                                    Double.parseDouble(tbtindakan.getValueAt(i,14).toString())+
+                                    Double.parseDouble(tbtindakan.getValueAt(i,15).toString())+
+                                    Double.parseDouble(tbtindakan.getValueAt(i,16).toString())+
+                                    Double.parseDouble(tbtindakan.getValueAt(i,17).toString())+
+                                    Double.parseDouble(tbtindakan.getValueAt(i,18).toString())+
+                                    Double.parseDouble(tbtindakan.getValueAt(i,19).toString())+
+                                    Double.parseDouble(tbtindakan.getValueAt(i,20).toString())+
+                                    Double.parseDouble(tbtindakan.getValueAt(i,21).toString())+
+                                    Double.parseDouble(tbtindakan.getValueAt(i,22).toString())+
+                                    Double.parseDouble(tbtindakan.getValueAt(i,23).toString())+
+                                    Double.parseDouble(tbtindakan.getValueAt(i,24).toString())+
+                                    Double.parseDouble(tbtindakan.getValueAt(i,25).toString())+
+                                    Double.parseDouble(tbtindakan.getValueAt(i,26).toString())+
+                                    Double.parseDouble(tbtindakan.getValueAt(i,27).toString())+
+                                    Double.parseDouble(tbtindakan.getValueAt(i,28).toString())+
+                                    Double.parseDouble(tbtindakan.getValueAt(i,29).toString())+
+                                    Double.parseDouble(tbtindakan.getValueAt(i,30).toString())+
+                                    Double.parseDouble(tbtindakan.getValueAt(i,31).toString());
+                                    //----------END------------
+                            //Source Code Asli Sebelumnya
+                            //ttlpendapatan=ttlpendapatan+Double.parseDouble(tbtindakan.getValueAt(i,32).toString()));
                         }else{
                             sukses=false;
                         }
@@ -2952,6 +3040,46 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         Valid.pindah(evt,BtnOperator2,BtnAnastesi);
     }//GEN-LAST:event_btnOperator3KeyPressed
 
+    private void jPenyulitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPenyulitActionPerformed
+    //---------AWAL-----
+    //Source Code di buat dan Tambahkan oleh Amelia Yahya 24 Juli 2021
+        
+        biayaop1=0;
+            y=0;
+            int row2=tbtindakan.getRowCount();
+            for(int r=0;r<row2;r++){ 
+                switch (tbtindakan.getValueAt(r,0).toString()) {
+                    case "true":
+                        try {
+                            y=Double.parseDouble(tbtindakan.getValueAt(r,4).toString());
+                        } catch (Exception e) {
+                            y=0;
+                        }                        
+                        break;                
+                    case "false":
+                        y=0;
+                        break;
+                }
+                biayaop1=biayaop1+y;
+            }
+        
+            if (jPenyulit.isSelected()==true){
+                tambahanpenyulit =   biayaop1 * 0.25;
+            }else if(jPenyulit.isSelected()==false){   
+                tambahanpenyulit = 0;
+            }
+
+            txtPenyulit.setText("Tambahan Penyulit : "+Valid.SetAngka(tambahanpenyulit));
+        
+            LTotal.setText("Total Biaya : "+Valid.SetAngka(biayaobat+biayatindakan+tambahanpenyulit));
+        //---------END---------
+    }//GEN-LAST:event_jPenyulitActionPerformed
+
+    private void txtPenyulitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPenyulitActionPerformed
+        // TODO add your handling code here:
+        //Source Code di buat dan Tambahkan oleh Amelia Yahya 24 Juli 2021
+    }//GEN-LAST:event_txtPenyulitActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -3031,6 +3159,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JCheckBox jPenyulit;
     private widget.TextBox jenis;
     private widget.TextBox kdInstrumen;
     private widget.TextBox kdanestesi;
@@ -3115,6 +3244,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private widget.Table tbtindakan;
     private widget.Tanggal tgl;
     private widget.Tanggal tgl2;
+    private javax.swing.JTextField txtPenyulit;
     // End of variables declaration//GEN-END:variables
 
     private void tampil() {  
@@ -3311,12 +3441,12 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                     pstindakan4.setString(4,"%"+TCariPaket.getText()+"%");
                     rs=pstindakan4.executeQuery();
                 }
-                
+                   
                 while(rs.next()){
                     tabMode.addRow(new Object[]{false,rs.getString("kode_paket"),
                                    rs.getString("nm_perawatan"),
                                    rs.getString("kategori"), 
-                                   rs.getDouble("operator1"), 
+                                   rs.getDouble("operator1"),
                                    rs.getDouble("operator2"), 
                                    rs.getDouble("operator3"), 
                                    rs.getDouble("asisten_operator1"), 
@@ -3482,7 +3612,8 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         if(row!= -1){         
             if(tbtindakan.getValueAt(tbtindakan.getSelectedRow(),0).toString().equals("true")){
                 try {
-                    tbtindakan.setValueAt(Double.parseDouble(tbtindakan.getValueAt(row,4).toString())+
+                    tbtindakan.setValueAt(
+                                     Double.parseDouble(tbtindakan.getValueAt(row,4).toString())+
                                      Double.parseDouble(tbtindakan.getValueAt(row,5).toString())+
                                      Double.parseDouble(tbtindakan.getValueAt(row,6).toString())+
                                      Double.parseDouble(tbtindakan.getValueAt(row,7).toString())+
@@ -3514,9 +3645,9 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                     tbtindakan.setValueAt(0, row,32);
                 }                    
             }
-           
+
             biayatindakan=0;
-            y=0;
+            y=0; 
             int row2=tbtindakan.getRowCount();
             for(int r=0;r<row2;r++){ 
                 switch (tbtindakan.getValueAt(r,0).toString()) {
@@ -3532,6 +3663,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                         break;
                 }
                 biayatindakan=biayatindakan+y;
+           
             }            
         }
     }
